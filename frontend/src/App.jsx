@@ -6,7 +6,7 @@ function App() {
   const [message, setMessage] = useState('')
 
   const load = async () => {
-    const res = await fetch('http://localhost:8080/api/hello')
+    const res = await fetch('/api/hello')
     const text = await res.text()
     setMessage(text)
   }
