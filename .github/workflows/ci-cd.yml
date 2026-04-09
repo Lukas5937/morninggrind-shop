@@ -19,6 +19,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
       - name: Create .env file
         run: |
           echo "DB_URL=${{ secrets.DB_URL }}" >> .env
@@ -30,7 +35,9 @@ jobs:
         run: docker compose up -d --build
 
       - name: Wait for application
-        run: sleep 15
+        run: |
+          sleep 10
+          docker compose ps
 
       - name: Install Playwright Browsers
         run: |
@@ -41,3 +48,7 @@ jobs:
         run: |
           cd frontend
           npx playwright test --project=chromium
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs
