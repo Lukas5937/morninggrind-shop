@@ -21,7 +21,7 @@ resource "aws_security_group" "ssh" {
 }
 
 resource "aws_instance" "staging" {
-  ami           = "ami-0a49b025fffbbdac6"
+  ami           = "ami-0e872aee57663ae2d"
   instance_type = "t3.micro"
   key_name      = "morninggrind-key"
 
@@ -35,7 +35,7 @@ resource "aws_instance" "staging" {
 }
 
 resource "aws_instance" "production" {
-  ami           = "ami-0a49b025fffbbdac6"
+  ami           = "ami-0e872aee57663ae2d"
   instance_type = "t3.micro"
   key_name      = "morninggrind-key"
 
