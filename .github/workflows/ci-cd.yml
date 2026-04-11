@@ -5,6 +5,7 @@ on:
     branches: ['main']
   pull_request:
     branches: ['main']
+  workflow_dispatch:
 
 jobs:
   CI:
@@ -20,20 +21,26 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PWD }}
 
-      - name: Build & Push Backend Image
+      - name: Build Backend Image
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USER }}/morninggrind-backend:latest ./backend
-          docker push ${{ secrets.DOCKERHUB_USER }}/morninggrind-backend:latest
 
-      - name: Build & Push Frontend Image
+      - name: Build Frontend Image
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USER }}/morninggrind-frontend:latest ./frontend
-          docker push ${{ secrets.DOCKERHUB_USER }}/morninggrind-frontend:latest
 
-      - name: Start app for testing
+      - name: Push Backend Image
+        if: github.event_name == 'push'
+        run: docker push ${{ secrets.DOCKERHUB_USER }}/morninggrind-backend:latest
+
+      - name: Push Frontend Image
+        if: github.event_name == 'push'
+        run: docker push ${{ secrets.DOCKERHUB_USER }}/morninggrind-frontend:latest
+
+      - name: Start application for testing
         run: docker compose up -d
 
-      - name: Wait for app
+      - name: Wait for application
         run: sleep 10
 
       - name: Install Frontend Dependencies
@@ -55,10 +62,10 @@ jobs:
         if: failure()
         run: docker compose logs
 
-  CD:
+  CD_Staging:
     needs: CI
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
 
     steps:
       - name: Deploy to Staging
@@ -74,6 +81,12 @@ jobs:
             docker compose down
             docker compose up -d
 
+  CD_Production:
+    needs: CI
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
       - name: Deploy to Production
         uses: appleboy/ssh-action@v1.0.3
         with:
