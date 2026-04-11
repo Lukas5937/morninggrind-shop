@@ -37,6 +37,14 @@ jobs:
         if: github.event_name == 'push'
         run: docker push ${{ secrets.DOCKERHUB_USER }}/morninggrind-frontend:latest
 
+      - name: Create .env for CI
+        run: |
+          echo "DOCKERHUB_USER=${{ secrets.DOCKERHUB_USER }}" >> .env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "CORS_ORIGINS=${{ secrets.CORS_ORIGINS }}" >> .env
+
       - name: Start application for testing
         run: docker compose up -d
 
