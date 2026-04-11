@@ -86,8 +86,8 @@ jobs:
             cd /home/ubuntu/app
             docker pull ${{ secrets.DOCKERHUB_USER }}/morninggrind-backend:latest
             docker pull ${{ secrets.DOCKERHUB_USER }}/morninggrind-frontend:latest
-            docker compose down
-            docker compose up -d
+            docker-compose down
+            docker-compose up -d
 
   CD_Production:
     needs: CI
@@ -105,5 +105,5 @@ jobs:
             cd /home/ubuntu/app
             docker pull ${{ secrets.DOCKERHUB_USER }}/morninggrind-backend:latest
             docker pull ${{ secrets.DOCKERHUB_USER }}/morninggrind-frontend:latest
-            docker compose down
-            docker compose up -d
+            docker-compose down
+            docker-compose up -d
