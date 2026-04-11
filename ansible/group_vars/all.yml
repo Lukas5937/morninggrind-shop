@@ -1,4 +1,4 @@
-dockerhub_user: 'DEIN_DOCKERHUB_USERNAME'
+dockerhub_user: 'lukas5937'
 db_url: 'jdbc:postgresql://postgres:5432/postgres'
 db_user: 'postgres'
 db_password: 'secret'
