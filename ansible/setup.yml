@@ -42,6 +42,22 @@
         group: ubuntu
         mode: '0755'
 
+    - name: Copy docker-compose file
+      copy:
+        src: ../docker-compose.yml
+        dest: /home/ubuntu/app/docker-compose.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Copy nginx config
+      copy:
+        src: ../nginx/
+        dest: /home/ubuntu/app/nginx/
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
     - name: Create .env file for application
       copy:
         dest: /home/ubuntu/app/.env
