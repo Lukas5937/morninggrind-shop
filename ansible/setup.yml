@@ -62,6 +62,7 @@
       copy:
         dest: /home/ubuntu/app/.env
         content: |
+          DOCKERHUB_USER={{ dockerhub_user }}
           DB_URL={{ db_url }}
           DB_USER={{ db_user }}
           DB_PASSWORD={{ db_password }}
