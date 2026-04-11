@@ -1,0 +1,4 @@
+db_url: 'jdbc:postgresql://postgres:5432/postgres'
+db_user: 'postgres'
+db_password: 'secret'
+cors_origins: 'http://localhost'

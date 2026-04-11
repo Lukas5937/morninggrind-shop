@@ -1,4 +1,4 @@
-- name: Setup Docker on all servers
+- name: Prepare servers for deployment
   hosts: all
   become: true
 
@@ -12,6 +12,7 @@
         name:
           - ca-certificates
           - curl
+          - git
         state: present
 
     - name: Install Docker
@@ -31,3 +32,23 @@
         name: ubuntu
         groups: docker
         append: yes
+
+    - name: Create app directory
+      file:
+        path: /home/ubuntu/app
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Create .env file for application
+      copy:
+        dest: /home/ubuntu/app/.env
+        content: |
+          DB_URL={{ db_url }}
+          DB_USER={{ db_user }}
+          DB_PASSWORD={{ db_password }}
+          CORS_ORIGINS={{ cors_origins }}
+        owner: ubuntu
+        group: ubuntu
+        mode: '0600'
